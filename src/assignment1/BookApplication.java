@@ -1,34 +1,27 @@
 package assignment1;
-
 import java.util.Scanner;
 
-
 /**
- * Part 4: Create a Simple Application
- * 1.	Create a Java class called “BookApplication” with a main method that prompts the user to select any of the following options:
- *      1.	Print all the books from the database (showing the authors)
- *      2.	Print all the authors from the database (showing the books)
- *      3.	Add a book to the database for an existing author
- *      4.	Add a new author
- *      5.	Quit
+ * BookApplication class that deals with the user input menu
  *
- * 2.	Note that the user should be able to continue making choices until they quit.
+ * @author Dawson
  */
-
 public class BookApplication {
 
+    /**
+     * main method, prompts user to continue to make selections until they wish to quit
+     * @param args args
+     */
     public static void main(String args[]) {
 
         Scanner input = new Scanner(System.in);
         BookDatabaseManager bookDatabaseManager = new BookDatabaseManager();
         LibraryManager libraryManager = new LibraryManager(bookDatabaseManager);
 
-
-
-        boolean keepUsing = true;
-        while (keepUsing) {
+        boolean keepGoing = true;
+        while (keepGoing) {
             System.out.println();
-            System.out.println("Please choose a number for the associated options:");
+            System.out.println("Select an options (1-5):");
             System.out.println("1. Print all the books from the database (showing the authors)");
             System.out.println("2. Print all the authors from the database (showing the books)");
             System.out.println("3. Add a book to the database for an existing author");
@@ -55,19 +48,12 @@ public class BookApplication {
                     String title = input.nextLine();
                     System.out.println("Please enter the edition of the book: ");
                     int edition = input.nextInt();
-                    //fixme help, it skips past copyright does not allowed it to be entered
                     System.out.println("Please enter the copyright of the book: ");
                     String copyright = input.next();
-                    //todo add first name and last
-//                    System.out.println("Please enter the first name");
-//                    String firstName = input.next();
-//                    System.out.println("Please enter the last name");
-//                    String lastName = input.next();
                     Book newBook = new Book(isbn,title, edition, copyright);
                     System.out.println("How many authors wrote this book?");
                     int num = input.nextInt();
                     for (int i=0; i< num; i++){
-
                         System.out.println("\nEnter the authorID:");
                         int id = input.nextInt();
                         Author author =new Author(id,"","");
@@ -75,7 +61,6 @@ public class BookApplication {
                     }
 
                     bookDatabaseManager.insertBook(newBook);
-                    //db.AddAuthorToBook(isbn, authorid);
                     libraryManager.reloadFromDataSource();
                     break;
                 case "4":
@@ -89,8 +74,8 @@ public class BookApplication {
                     libraryManager.reloadFromDataSource();
                     break;
                 case "5":
-                    System.out.println("Thank you for using the database. Goodbye");
-                    keepUsing = false;
+                    System.out.println("Bye!");
+                    keepGoing = false;
                     break;
 
 

@@ -11,25 +11,20 @@ import java.util.List;
  */
 public class BookDatabaseManager {
 
+    /**
+     * get the library manager
+     * @return Library Manager
+     */
     public static LibraryManager getLibraryManager(){
-        //todo build a library up correctly with all authors and books and their relationships
-        //todo add get all books and get all authors into LibraryManager class?? and loop through for each 51 mins mark may 20
-        //fixme maybe
         return new LibraryManager(new BookDatabaseManager());
     }
-
-//    public BookDatabaseManager() {
-//        String test = BooksDatabaseSQL.BOOK_TABLE_NAME;
-//
-//    }
 
     /**
      * retrieve Book from the database using ISBN
      * @param isbn isbn
-     * @return
+     * @return new Book
      */
     public static Book getBookByISBN(String isbn){
-
         try(
                 Connection connection = getConnection();
         ){
@@ -39,10 +34,7 @@ public class BookDatabaseManager {
             preparedStatement.setString(1,isbn);
             System.out.println(sqlQuery);
             ResultSet resultSet = preparedStatement.executeQuery();
-            //todo: check to make sure its one row?
-
-
-//            //Execute the query and get the result set
+            //Execute the query and get the result set
             while(resultSet.next()){
                     return new Book(
                             resultSet.getString(BooksDatabaseSQL.BOOK_COL_NAME_ISBN),
@@ -50,14 +42,11 @@ public class BookDatabaseManager {
                             resultSet.getInt(BooksDatabaseSQL.BOOK_COL_NAME_EDITION_NUMBER),
                             resultSet.getString(BooksDatabaseSQL.BOOK_COL_NAME_COPYRIGHT)
                     );
-
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
-
     }
     
     /**
@@ -67,7 +56,6 @@ public class BookDatabaseManager {
      */
     public static List<Book> getAllBooks(){
         LinkedList bookList = new LinkedList();
-
         try(
                 Connection connection = getConnection();
                 Statement statement = connection.createStatement();
@@ -90,7 +78,6 @@ public class BookDatabaseManager {
             e.printStackTrace();
         }
         return bookList;
-
     }
 
     /**
@@ -113,7 +100,6 @@ public class BookDatabaseManager {
                         )
                 );
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -148,9 +134,6 @@ public class BookDatabaseManager {
         }
 
         return authorISBNList;
-
-
-
     }
 
 
@@ -162,7 +145,6 @@ public class BookDatabaseManager {
     public static boolean insertBook(Book book){
         try(Connection connection = getConnection();){
             String sqlQuery = "INSERT INTO " + BooksDatabaseSQL.BOOK_TABLE_NAME + " VALUES (?,?,?,?)";
-
             PreparedStatement preparedStatement= connection.prepareStatement(sqlQuery);
             //these values are the books attributes
             preparedStatement.setString(1, book.getIsbn());
@@ -170,19 +152,14 @@ public class BookDatabaseManager {
             preparedStatement.setInt(3, book.getEditionNumber());
             preparedStatement.setString(4, book.getCopyright());
             preparedStatement.executeQuery();
-
-
             String SqlAuthor = "insert into authorisbn(authorID, isbn)"+
                     "values(?,?)";
             PreparedStatement preparedStatement1= connection.prepareStatement(SqlAuthor);
             preparedStatement1.setString(2, book.getIsbn());
-
             for(Author author : book.getAuthorList()){
                 preparedStatement1.setInt(1,author.getAuthorID());
                 preparedStatement1.execute();
             }
-
-
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -207,12 +184,7 @@ public class BookDatabaseManager {
             //these values are the books attributes
             preparedStatement.setString(1, author.getFirstName());
             preparedStatement.setString(2, author.getLastName());
-
             preparedStatement.executeQuery();
-            //todo what about authors
-
-            //todo: check to make sure its one row?
-
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -232,14 +204,12 @@ public class BookDatabaseManager {
         return DriverManager.getConnection(BooksDatabaseSQL.DB_URL,
                 BooksDatabaseSQL.USER,
                 BooksDatabaseSQL.PASS);
-
     }
 
     /**
      * simple inner class to abstract all the specific SQL information
      */
     private class BooksDatabaseSQL{
-
         //login information
         public static final String DB_URL = "jdbc:mariadb://localhost:3306/books";
         public static final String USER = "root";
@@ -255,6 +225,9 @@ public class BookDatabaseManager {
 
     }
 
+    /**
+     * simple inner class that abstracts all the speicifc SQL information for the authors table
+     */
     private class AuthorDatabaseSQL{
         public static final String AUTHORS_TABLE_NAME = "authors";
         public static final String AUTHOR_COL_NAME_ID= "authorID";
@@ -263,6 +236,9 @@ public class BookDatabaseManager {
 
     }
 
+    /**
+     * simple inner class that abstracts all the speicifc SQL information for the authorsISBN table
+     */
     private class AuthorISBNDatabaseSQL{
         public static final String AUTHORSISBN_TABLE_NAME= "authorisbn";
         public static final String AUTHOR_COL_NAME_AUTHORID= "authorID";

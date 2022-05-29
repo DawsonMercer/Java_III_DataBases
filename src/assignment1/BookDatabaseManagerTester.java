@@ -3,6 +3,11 @@ package assignment1;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Database tester class that was user to test along the way. not relevant for the assignmetn
+ *
+ * @author Dawson
+ */
 public class BookDatabaseManagerTester {
     public static void main(String[] args) {
         System.out.println("Testing the book Database manager");

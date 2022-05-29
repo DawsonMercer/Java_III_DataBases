@@ -36,6 +36,10 @@ public class Author {
         this.lastName = lastName;
     }
 
+    /**
+     * get the AuthorID
+     * @return authorID
+     */
     public int getAuthorID() {
         return authorID;
     }
@@ -56,10 +60,18 @@ public class Author {
         return lastName;
     }
 
+    /**
+     * Get the book list associated with the Author
+     * @return book list
+     */
     public List<Book> getBookList() {
         return bookList;
     }
 
+    /**
+     * Print the Author's ID, first name, last name, and the book informaiton associated with the Author
+     * @param printStream
+     */
     public void printAuthorsInfo(PrintStream printStream){
         printStream.printf("\n\nAuthor ID: %d \t\t First Name: %-10s \t\t Last Name: %-10s",
                 this.getAuthorID(),this.getFirstName(),this.getLastName());
