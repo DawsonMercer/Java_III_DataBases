@@ -169,14 +169,19 @@ public class BookDatabaseManager {
             preparedStatement.setString(2, book.getTitle());
             preparedStatement.setInt(3, book.getEditionNumber());
             preparedStatement.setString(4, book.getCopyright());
-
-//            System.out.println(preparedStatement.toString());
-
             preparedStatement.executeQuery();
-            //todo how do we know it works?
-            //todo what about authors
 
-            //todo: check to make sure its one row?
+
+            String SqlAuthor = "insert into authorisbn(authorID, isbn)"+
+                    "values(?,?)";
+            PreparedStatement preparedStatement1= connection.prepareStatement(SqlAuthor);
+            preparedStatement1.setString(2, book.getIsbn());
+
+            for(Author author : book.getAuthorList()){
+                preparedStatement1.setInt(1,author.getAuthorID());
+                preparedStatement1.execute();
+            }
+
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -204,7 +209,6 @@ public class BookDatabaseManager {
             preparedStatement.setString(2, author.getLastName());
 
             preparedStatement.executeQuery();
-            //todo how do we know it works?
             //todo what about authors
 
             //todo: check to make sure its one row?

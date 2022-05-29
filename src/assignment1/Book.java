@@ -13,12 +13,12 @@ public class Book {
     private String isbn;
     private String title;
     private int editionNumber;
-    private String copyright;
+    private String copyright ;
     //todo getAllAuthorsForABook and then do the opposite for authors, get all books under the author
     //todo BookLibrary DONT load all of your books into a list and for a author i want to grab all the isbn adn then create a bunch of book objects
     //todo what you should do it use the list
     //todo explanation at 43 mins
-    private List<Author> authorList;
+    private List<Author> authorList = new LinkedList<>();
 
 
     /**
@@ -33,8 +33,9 @@ public class Book {
         this.title = title;
         this.editionNumber = editionNumber;
         this.copyright = copyright;
-        this.authorList = new LinkedList<>();
+//        this.authorList = new LinkedList<>();
     }
+
 
     /**
      * Create a book with a all the authors

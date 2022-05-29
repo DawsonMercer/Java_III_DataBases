@@ -57,19 +57,34 @@ public class BookApplication {
                     int edition = input.nextInt();
                     //fixme help, it skips past copyright does not allowed it to be entered
                     System.out.println("Please enter the copyright of the book: ");
-                    String copyright = input.nextLine();
+                    String copyright = input.next();
+                    //todo add first name and last
+//                    System.out.println("Please enter the first name");
+//                    String firstName = input.next();
+//                    System.out.println("Please enter the last name");
+//                    String lastName = input.next();
                     Book newBook = new Book(isbn,title, edition, copyright);
+                    System.out.println("How many authors wrote this book?");
+                    int num = input.nextInt();
+                    for (int i=0; i< num; i++){
+
+                        System.out.println("\nEnter the authorID:");
+                        int id = input.nextInt();
+                        Author author =new Author(id,"","");
+                        newBook.getAuthorList().add(author);
+                    }
+
                     bookDatabaseManager.insertBook(newBook);
                     //db.AddAuthorToBook(isbn, authorid);
                     libraryManager.reloadFromDataSource();
                     break;
                 case "4":
                     System.out.println("Please enter the author's first name:");
-                    String firstName = input.nextLine();
+                    String firstName1 = input.next();
                     System.out.println("Please enter the author's last name");
-                    String lastName = input.nextLine();
+                    String lastName1 = input.next();
                     //no author id is passed here as it will be dealt with in insertAuthor()
-                    Author newAuthor = new Author(firstName, lastName);
+                    Author newAuthor = new Author(firstName1, lastName1);
                     bookDatabaseManager.insertAuthor(newAuthor);
                     libraryManager.reloadFromDataSource();
                     break;
